@@ -1,5 +1,6 @@
 package ai.coworkers.core.policy;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -78,5 +79,20 @@ public interface Specification<T> extends Predicate<T> {
     @Override
     default Specification<T> negate() {
         return candidate -> !isSatisfiedBy(candidate);
+    }
+
+    /**
+     * 이 정책을 만족하면 {@code true}를 반환하고, 만족하지 않으면 예외를 던지는 정책을 반환함.
+     *
+     * @param exceptionFactory 판정 대상으로 예외를 만드는 함수
+     * @return 불만족 시 예외를 던지는 판정 정책
+     */
+    default Specification<T> orElseThrow(Function<? super T, ? extends RuntimeException> exceptionFactory) {
+        return candidate -> {
+            if (!isSatisfiedBy(candidate)) {
+                throw exceptionFactory.apply(candidate);
+            }
+            return true;
+        };
     }
 }
