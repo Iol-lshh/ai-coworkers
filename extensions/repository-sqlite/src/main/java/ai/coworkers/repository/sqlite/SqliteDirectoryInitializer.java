@@ -8,25 +8,21 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
  * DataSource 초기화 전에 SQLite DB 파일의 상위 디렉터리를 생성하는 후처리기
  */
+@RequiredArgsConstructor
 class SqliteDirectoryInitializer implements BeanPostProcessor {
 
     private static final String URL_PREFIX = "jdbc:sqlite:";
     private static final String FILE_PREFIX = "file:";
     private static final String MEMORY = ":memory:";
 
-    private final String url;
-
-    /**
-     * @param url JDBC URL. {@code null} 허용.
-     */
-    SqliteDirectoryInitializer(String url) {
-        this.url = url;
-    }
+    private final @Nullable String url;
 
     /**
      * DataSource 빈이면 DB 파일의 상위 디렉터리를 생성함.
@@ -42,10 +38,10 @@ class SqliteDirectoryInitializer implements BeanPostProcessor {
     /**
      * JDBC URL에서 SQLite DB 파일의 상위 디렉터리를 추출함.
      *
-     * @param url JDBC URL. {@code null} 허용.
+     * @param url JDBC URL
      * @return SQLite 파일 DB면 상위 디렉터리, 아니면 빈 값
      */
-    static Optional<Path> databaseDirectory(String url) {
+    static Optional<Path> databaseDirectory(@Nullable String url) {
         if (url == null || !url.startsWith(URL_PREFIX)) {
             return Optional.empty();
         }
