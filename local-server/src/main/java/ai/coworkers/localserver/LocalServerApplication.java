@@ -1,12 +1,15 @@
 package ai.coworkers.localserver;
 
+import ai.coworkers.repository.sqlite.SqliteConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
-@SpringBootApplication(scanBasePackages = "ai.coworkers")
+@SpringBootApplication
+@Import(SqliteConfiguration.class)
 public class LocalServerApplication {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(LocalServerApplication.class, args);
     }
 }

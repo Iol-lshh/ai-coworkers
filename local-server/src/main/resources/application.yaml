@@ -1,9 +1,11 @@
 spring:
   application:
     name: ai-coworkers-local-server
+  datasource:
+    url: jdbc:sqlite:${user.home}/.ai-coworkers/app.db
 
 server:
-  port: 8080
+  port: 42719
 
 management:
   endpoints:
