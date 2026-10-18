@@ -20,3 +20,4 @@
 | 원칙 문서 작성·수정 | `.claude/principles/principle-writing-principles.md` |
 | 피처 보고서 작성·수정 | `.claude/principles/feature-report-principles.md` |
 | 검증·평가·품질 보완 작업, 측정값이 들어가는 프롬프트 작성 | `.claude/principles/measurement-principles.md` |
+| 테스트 코드 작성·수정 | `.claude/principles/test-writing-principles.md` |
