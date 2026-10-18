@@ -1,9 +1,15 @@
 [versions]
 spring-boot = "4.1.1"
 archunit = "1.5.1"
+errorprone = "2.50.0"
+errorprone-plugin = "5.1.1"
+nullaway = "0.14.2"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
+errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
+nullaway = { module = "com.uber.nullaway:nullaway", version.ref = "nullaway" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+errorprone = { id = "net.ltgt.errorprone", version.ref = "errorprone-plugin" }
