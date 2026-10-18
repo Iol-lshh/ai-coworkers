@@ -32,7 +32,3 @@
 | `local-server`                 | 로컬 백엔드: REST API + 워크플로우 실행 (Spring Boot) |
 | `extensions/agent-claude`      | `AgentPort` 구현: Claude Code CLI |
 | `extensions/repository-sqlite` | Repository 포트 구현: SQLite + JdbcClient (로컬 전용) |
-
-## 설계 결정
-
-[.asset/adr](.asset/adr/README.md) 참고.

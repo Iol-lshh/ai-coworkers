@@ -1,7 +1,6 @@
 # Temporal 로컬 실행 가이드
 
 로컬에서 Temporal dev server를 SQLite 파일 모드로 실행함.
-데이터 경로는 [ADR 0005](../../.asset/adr/0005-local-storage-sqlite.md)를 따름.
 
 ## 1. CLI 설치
 
