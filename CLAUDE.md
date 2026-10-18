@@ -11,6 +11,7 @@
 - @.claude/principles/single-responsibility-principles.md
 - @.claude/principles/intent-alignment-principles.md
 - @.claude/principles/task-execution-principles.md
+- @.claude/principles/language-principles.md
 
 ## 상황별 적용
 
