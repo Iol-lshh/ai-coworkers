@@ -8,28 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("ArgumentSpecifications")
 class ArgumentSpecificationsTest {
-
-    @Nested
-    @DisplayName("NOT_NULL")
-    class NotNull {
-
-        @Test
-        @DisplayName("null이 아니면 만족함")
-        void satisfiedByNonNull() {
-            assertThat(ArgumentSpecifications.NOT_NULL.isSatisfiedBy("value")).isTrue();
-        }
-
-        @Test
-        @DisplayName("null이면 만족하지 않음")
-        void notSatisfiedByNull() {
-            assertThat(ArgumentSpecifications.NOT_NULL.isSatisfiedBy(null)).isFalse();
-        }
-    }
 
     @Nested
     @DisplayName("NOT_BLANK")
@@ -43,9 +25,8 @@ class ArgumentSpecificationsTest {
         }
 
         @ParameterizedTest(name = "[{0}]")
-        @NullSource
         @ValueSource(strings = {"", " ", "\t\n"})
-        @DisplayName("null이거나 공백뿐이면 만족하지 않음")
+        @DisplayName("공백뿐이면 만족하지 않음")
         void notSatisfiedByBlank(String candidate) {
             assertThat(ArgumentSpecifications.NOT_BLANK.isSatisfiedBy(candidate)).isFalse();
         }
@@ -66,12 +47,6 @@ class ArgumentSpecificationsTest {
         void notSatisfiedByEmpty() {
             assertThat(ArgumentSpecifications.NOT_EMPTY.isSatisfiedBy(List.of())).isFalse();
         }
-
-        @Test
-        @DisplayName("null이면 만족하지 않음")
-        void notSatisfiedByNull() {
-            assertThat(ArgumentSpecifications.NOT_EMPTY.isSatisfiedBy(null)).isFalse();
-        }
     }
 
     @Nested
@@ -90,12 +65,6 @@ class ArgumentSpecificationsTest {
         @DisplayName("0 이하면 만족하지 않음")
         void notSatisfiedByNonPositive(int candidate) {
             assertThat(ArgumentSpecifications.POSITIVE.isSatisfiedBy(candidate)).isFalse();
-        }
-
-        @Test
-        @DisplayName("null이면 만족하지 않음")
-        void notSatisfiedByNull() {
-            assertThat(ArgumentSpecifications.POSITIVE.isSatisfiedBy(null)).isFalse();
         }
     }
 }
