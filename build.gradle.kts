@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.spring.boot) apply false
 }
 
-// 모든 모듈 공통: Java 25 toolchain, JUnit, JaCoCo(분기 커버리지 XML)
+// 모든 모듈 공통: Java 25 toolchain, JUnit, JaCoCo(분기 커버리지 XML), 아키텍처 규칙(core testFixtures)
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "jacoco")
@@ -25,6 +25,9 @@ subprojects {
         "testImplementation"("org.junit.jupiter:junit-jupiter")
         "testImplementation"("org.assertj:assertj-core")
         "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
+        if (path != ":core") {
+            "testImplementation"(testFixtures(project(":core")))
+        }
     }
 
     tasks.withType<JavaCompile>().configureEach {
