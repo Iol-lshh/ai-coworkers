@@ -1,6 +1,7 @@
 package ai.coworkers.core;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
@@ -21,4 +22,19 @@ class CoreArchitectureTest {
           .onlyDependOnClassesThat()
           .resideInAnyPackage(
               "java..", "org.jspecify.annotations..", "lombok", "ai.coworkers.core..");
+
+  /** core에는 애플리케이션 서비스를 두지 않음. */
+  @ArchTest
+  static final ArchRule core_has_no_service =
+      noClasses().should().haveSimpleNameEndingWith("Service");
+
+  /** 도메인 서비스는 저장소에 의존하지 않음. */
+  @ArchTest
+  static final ArchRule processor_does_not_depend_on_repository =
+      noClasses()
+          .that()
+          .haveSimpleNameEndingWith("Processor")
+          .should()
+          .dependOnClassesThat()
+          .haveSimpleNameEndingWith("Repository");
 }

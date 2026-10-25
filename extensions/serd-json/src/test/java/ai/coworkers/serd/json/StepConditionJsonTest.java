@@ -8,10 +8,9 @@ import ai.coworkers.core.model.workflow.step.condition.StepConditionData.AllOfDa
 import ai.coworkers.core.model.workflow.step.condition.StepConditionData.AnyOfData;
 import ai.coworkers.core.model.workflow.step.condition.StepConditionData.LeafData;
 import ai.coworkers.core.model.workflow.step.condition.StepConditionData.NotData;
+import ai.coworkers.serd.json.step.StepConditionJson;
 import java.util.List;
 import java.util.Map;
-
-import ai.coworkers.serd.json.step.StepConditionJson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

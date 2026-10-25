@@ -52,7 +52,13 @@ public final class StepConditionJson {
     return fromNode(root);
   }
 
-  private ObjectNode toNode(StepConditionData data) {
+  /**
+   * 저장 형태를 JSON 노드로 바꿈.
+   *
+   * @param data 저장 형태
+   * @return JSON 노드
+   */
+  public ObjectNode toNode(StepConditionData data) {
     ObjectNode node = mapper.createObjectNode();
     switch (data) {
       case AllOfData allOf -> {
@@ -82,7 +88,13 @@ public final class StepConditionJson {
     children.forEach(child -> array.add(toNode(child)));
   }
 
-  private StepConditionData fromNode(JsonNode node) {
+  /**
+   * JSON 노드를 저장 형태로 바꿈. 형식이 맞지 않으면 거부함.
+   *
+   * @param node JSON 노드
+   * @return 저장 형태
+   */
+  public StepConditionData fromNode(JsonNode node) {
     if (!node.isObject()) {
       throw invalid("node must be an object");
     }

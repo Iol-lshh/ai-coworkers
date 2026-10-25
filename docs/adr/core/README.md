@@ -20,6 +20,7 @@
 | [0012](0012-closed-condition-tree.md) | 조건 트리를 닫고 말단 조건 종류로만 확장함 | 수락됨 |
 | [0013](0013-step-input-named-values.md) | 단계 입력을 이름 붙은 값 묶음으로 둠 | 수락됨 |
 | [0014](0014-neutral-form-and-serd-module.md) | core는 중립 형태까지 변환하고 문자열 형식은 serd 모듈이 맡음 | 수락됨 |
+| [0015](0015-template-storage-and-optimistic-lock.md) | 템플릿을 JSON 본문으로 저장하고 직전 버전 조건부 갱신으로 낙관적 잠금함 | 수락됨 |
 
 ## 개념 관계
 

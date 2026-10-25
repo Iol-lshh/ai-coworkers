@@ -21,4 +21,5 @@
 
 - 문자열 형식을 바꾸거나 추가해도 core는 바뀌지 않음.
 - 조건 트리의 JSON 변환은 `serd-json` 모듈이 맡음.
-- 단계 입력과 템플릿 스냅샷 전체의 변환은 미구현임.
+- 템플릿의 중립 형태 변환은 `StepTemplateCodec`, JSON 변환은 `serd-json` 모듈의 `StepTemplateJson`이 맡음.
+- 작업 템플릿과 단계 입력의 변환은 미구현임.

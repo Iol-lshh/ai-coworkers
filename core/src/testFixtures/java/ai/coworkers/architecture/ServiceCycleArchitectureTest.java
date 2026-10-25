@@ -1,22 +1,27 @@
 package ai.coworkers.architecture;
 
+import static com.tngtech.archunit.base.DescribedPredicate.describe;
+import static com.tngtech.archunit.base.DescribedPredicate.not;
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.simpleNameEndingWith;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
+import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 /** 서비스 순환 방지 아키텍처 규칙. 하위 클래스가 {@code @AnalyzeClasses}로 검사 대상을 지정함. */
 public abstract class ServiceCycleArchitectureTest {
 
-  /** Service는 다른 Service에 의존하지 않음. */
+  /** Service는 다른 Service에 의존하지 않음. 이름이 Service로 끝나는 애노테이션은 제외함. */
   @ArchTest
   static final ArchRule service_does_not_depend_on_service =
       noClasses()
           .that()
           .haveSimpleNameEndingWith("Service")
           .should()
-          .dependOnClassesThat()
-          .haveSimpleNameEndingWith("Service")
+          .dependOnClassesThat(
+              simpleNameEndingWith("Service")
+                  .and(not(describe("annotation", JavaClass::isAnnotation))))
           .allowEmptyShould(true);
 
   /** Facade는 다른 Facade에 의존하지 않음. */
