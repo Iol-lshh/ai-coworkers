@@ -1,8 +1,8 @@
 package ai.coworkers.core.model.workflow.step.template;
 
 import ai.coworkers.core.model.workflow.step.DefaultStepType;
-import ai.coworkers.core.model.workflow.step.StepCondition;
 import ai.coworkers.core.model.workflow.step.StepType;
+import ai.coworkers.core.model.workflow.step.condition.StepCondition;
 
 /**
  * 조건 만족 여부로 다음 단계를 고르는 단계의 틀

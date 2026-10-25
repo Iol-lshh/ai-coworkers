@@ -1,8 +1,8 @@
 package ai.coworkers.core.model.workflow.step.template;
 
 import ai.coworkers.core.model.workflow.step.DefaultStepType;
-import ai.coworkers.core.model.workflow.step.StepCondition;
 import ai.coworkers.core.model.workflow.step.StepType;
+import ai.coworkers.core.model.workflow.step.condition.StepCondition;
 
 /**
  * 조건을 만족하는 동안 본문을 반복하는 단계의 틀

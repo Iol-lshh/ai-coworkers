@@ -1,9 +1,7 @@
-package ai.coworkers.core.model.workflow.step.template.parallel;
+package ai.coworkers.core.model.workflow.step.template;
 
 import ai.coworkers.core.model.workflow.step.DefaultStepType;
 import ai.coworkers.core.model.workflow.step.StepType;
-import ai.coworkers.core.model.workflow.step.template.StepTemplate;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
 import java.util.List;
 
 /**

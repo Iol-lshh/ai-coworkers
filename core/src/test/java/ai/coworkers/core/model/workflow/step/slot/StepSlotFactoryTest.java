@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import ai.coworkers.core.model.workflow.step.DefaultStepType;
-import ai.coworkers.core.model.workflow.step.StepCondition;
 import ai.coworkers.core.model.workflow.step.StepType;
+import ai.coworkers.core.model.workflow.step.condition.FixedStepConditionType;
 import ai.coworkers.core.model.workflow.step.input.StepInput;
 import ai.coworkers.core.model.workflow.step.output.StepOutput;
 import ai.coworkers.core.model.workflow.step.slot.branch.BranchStepSlot;
@@ -18,9 +18,9 @@ import ai.coworkers.core.model.workflow.step.slot.task.TaskStepSlot;
 import ai.coworkers.core.model.workflow.step.slot.task.TaskStepSlotAssembler;
 import ai.coworkers.core.model.workflow.step.template.BranchStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.LoopStepTemplate;
+import ai.coworkers.core.model.workflow.step.template.ParallelStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
-import ai.coworkers.core.model.workflow.step.template.parallel.ParallelStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.task.TaskStepTemplate;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,18 +97,6 @@ class StepSlotFactoryTest {
     }
   }
 
-  private record AlwaysSatisfied() implements StepCondition {
-    @Override
-    public UUID id() {
-      return new UUID(0, 0);
-    }
-
-    @Override
-    public boolean isSatisfiedBy(StepInput candidate) {
-      return true;
-    }
-  }
-
   private static StepTemplateId templateId() {
     return new StepTemplateId(UUID.randomUUID());
   }
@@ -163,10 +151,10 @@ class StepSlotFactoryTest {
       StepTemplateId end = templateId();
       TaskStepTemplate startTemplate = new TestTaskTemplate(start, branch);
       BranchStepTemplate branchTemplate =
-          new BranchStepTemplate(branch, 1L, new AlwaysSatisfied(), satisfied, loop);
+          new BranchStepTemplate(branch, 1L, FixedStepConditionType.leaf(true), satisfied, loop);
       TaskStepTemplate satisfiedTemplate = new TestTaskTemplate(satisfied, parallel);
       LoopStepTemplate loopTemplate =
-          new LoopStepTemplate(loop, 1L, new AlwaysSatisfied(), start, end);
+          new LoopStepTemplate(loop, 1L, FixedStepConditionType.leaf(true), start, end);
       ParallelStepTemplate parallelTemplate =
           new ParallelStepTemplate(parallel, 1L, List.of(first, second), end);
       TaskStepTemplate firstTemplate = new TestTaskTemplate(first, null);

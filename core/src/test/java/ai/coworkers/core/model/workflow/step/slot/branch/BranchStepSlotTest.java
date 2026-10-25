@@ -3,7 +3,7 @@ package ai.coworkers.core.model.workflow.step.slot.branch;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import ai.coworkers.core.model.workflow.step.StepCondition;
+import ai.coworkers.core.model.workflow.step.condition.FixedStepConditionType;
 import ai.coworkers.core.model.workflow.step.input.StepInput;
 import ai.coworkers.core.model.workflow.step.output.NextSlotOutput;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
@@ -20,28 +20,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("BranchStepSlot")
 class BranchStepSlotTest {
 
-  private static final StepInput INPUT = new StepInput() {};
+  private static final StepInput INPUT = StepInput.empty();
   private static final StepSlotId ID = StepSlotId.generate();
   private static final StepSlotId WHEN_SATISFIED = StepSlotId.generate();
   private static final StepSlotId OTHERWISE = StepSlotId.generate();
-
-  private record FixedCondition(boolean satisfied) implements StepCondition {
-    @Override
-    public UUID id() {
-      return new UUID(0, 0);
-    }
-
-    @Override
-    public boolean isSatisfiedBy(StepInput candidate) {
-      return satisfied;
-    }
-  }
 
   private static BranchStepTemplate template(boolean satisfied) {
     return new BranchStepTemplate(
         new StepTemplateId(UUID.randomUUID()),
         1L,
-        new FixedCondition(satisfied),
+        FixedStepConditionType.leaf(satisfied),
         new StepTemplateId(UUID.randomUUID()),
         new StepTemplateId(UUID.randomUUID()));
   }

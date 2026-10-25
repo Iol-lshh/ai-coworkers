@@ -2,8 +2,7 @@ package ai.coworkers.core.model.workflow.step.slot.loop;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ai.coworkers.core.model.workflow.step.StepCondition;
-import ai.coworkers.core.model.workflow.step.input.StepInput;
+import ai.coworkers.core.model.workflow.step.condition.FixedStepConditionType;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
 import ai.coworkers.core.model.workflow.step.template.LoopStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
@@ -25,23 +24,11 @@ class LoopStepSlotAssemblerTest {
       new LoopStepTemplate(
           new StepTemplateId(UUID.randomUUID()),
           1L,
-          new AlwaysSatisfied(),
+          FixedStepConditionType.leaf(true),
           BODY_TEMPLATE,
           EXIT_TEMPLATE);
 
   private final LoopStepSlotAssembler assembler = new LoopStepSlotAssembler();
-
-  private record AlwaysSatisfied() implements StepCondition {
-    @Override
-    public UUID id() {
-      return new UUID(0, 0);
-    }
-
-    @Override
-    public boolean isSatisfiedBy(StepInput candidate) {
-      return true;
-    }
-  }
 
   @Nested
   @DisplayName("templateType")

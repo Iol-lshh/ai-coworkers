@@ -15,7 +15,11 @@
 | [0007](0007-slot-assembler-strategy.md) | 슬롯 조립에 전략을 쓰고 슬롯 종류를 열어 둠 | 수락됨 |
 | [0008](0008-saga-single-flow.md) | 사가는 흐름 하나의 현재 위치만 보유함 | 수락됨 |
 | [0009](0009-validation-responsibility.md) | 완성 검증은 빌더, 규칙 검증은 생성자가 맡음 | 수락됨 |
-| [0010](0010-condition-delegation.md) | 조건 판정은 구현체에 위임함 | 수락됨 |
+| [0010](0010-condition-delegation.md) | 조건 판정은 구현체에 위임함 | 대체됨 |
+| [0011](0011-condition-tree-in-template.md) | 분기·반복 템플릿이 조건 트리를 값으로 보유함 | 수락됨 |
+| [0012](0012-closed-condition-tree.md) | 조건 트리를 닫고 말단 조건 종류로만 확장함 | 수락됨 |
+| [0013](0013-step-input-named-values.md) | 단계 입력을 이름 붙은 값 묶음으로 둠 | 수락됨 |
+| [0014](0014-neutral-form-and-serd-module.md) | core는 중립 형태까지 변환하고 문자열 형식은 serd 모듈이 맡음 | 수락됨 |
 
 ## 개념 관계
 

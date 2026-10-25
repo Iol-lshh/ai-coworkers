@@ -5,7 +5,7 @@ import ai.coworkers.core.model.workflow.step.output.ForkOutput;
 import ai.coworkers.core.model.workflow.step.output.StepOutput;
 import ai.coworkers.core.model.workflow.step.slot.StepSlot;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
-import ai.coworkers.core.model.workflow.step.template.parallel.ParallelStepTemplate;
+import ai.coworkers.core.model.workflow.step.template.ParallelStepTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;

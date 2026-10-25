@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import ai.coworkers.core.model.workflow.step.input.StepInput;
 import ai.coworkers.core.model.workflow.step.output.ForkOutput;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
+import ai.coworkers.core.model.workflow.step.template.ParallelStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
-import ai.coworkers.core.model.workflow.step.template.parallel.ParallelStepTemplate;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("ParallelStepSlot")
 class ParallelStepSlotTest {
 
-  private static final StepInput INPUT = new StepInput() {};
+  private static final StepInput INPUT = StepInput.empty();
   private static final ParallelStepTemplate TEMPLATE =
       new ParallelStepTemplate(
           new StepTemplateId(UUID.randomUUID()),

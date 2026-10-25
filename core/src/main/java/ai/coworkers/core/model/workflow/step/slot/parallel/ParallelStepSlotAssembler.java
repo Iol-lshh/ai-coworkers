@@ -3,8 +3,8 @@ package ai.coworkers.core.model.workflow.step.slot.parallel;
 import ai.coworkers.core.model.workflow.step.slot.StepSlot;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotAssembler;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
+import ai.coworkers.core.model.workflow.step.template.ParallelStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
-import ai.coworkers.core.model.workflow.step.template.parallel.ParallelStepTemplate;
 import java.util.function.Function;
 
 /** 병렬 템플릿을 병렬 슬롯으로 조립하는 전략 */

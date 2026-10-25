@@ -2,8 +2,7 @@ package ai.coworkers.core.model.workflow.step.slot.branch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ai.coworkers.core.model.workflow.step.StepCondition;
-import ai.coworkers.core.model.workflow.step.input.StepInput;
+import ai.coworkers.core.model.workflow.step.condition.FixedStepConditionType;
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
 import ai.coworkers.core.model.workflow.step.template.BranchStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
@@ -26,23 +25,11 @@ class BranchStepSlotAssemblerTest {
       new BranchStepTemplate(
           new StepTemplateId(UUID.randomUUID()),
           1L,
-          new AlwaysSatisfied(),
+          FixedStepConditionType.leaf(true),
           WHEN_SATISFIED_TEMPLATE,
           OTHERWISE_TEMPLATE);
 
   private final BranchStepSlotAssembler assembler = new BranchStepSlotAssembler();
-
-  private record AlwaysSatisfied() implements StepCondition {
-    @Override
-    public UUID id() {
-      return new UUID(0, 0);
-    }
-
-    @Override
-    public boolean isSatisfiedBy(StepInput candidate) {
-      return true;
-    }
-  }
 
   @Nested
   @DisplayName("templateType")

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("TaskStepSlot")
 class TaskStepSlotTest {
 
-  private static final StepInput INPUT = new StepInput() {};
+  private static final StepInput INPUT = StepInput.empty();
   private static final StepOutput RESULT = new StepOutput() {};
   private static final TaskStepTemplate TEMPLATE =
       new TestTaskTemplate(new StepTemplateId(UUID.randomUUID()), null);

@@ -3,8 +3,8 @@ package ai.coworkers.core.model.workflow.step.slot.parallel;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import ai.coworkers.core.model.workflow.step.slot.StepSlotId;
+import ai.coworkers.core.model.workflow.step.template.ParallelStepTemplate;
 import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
-import ai.coworkers.core.model.workflow.step.template.parallel.ParallelStepTemplate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
