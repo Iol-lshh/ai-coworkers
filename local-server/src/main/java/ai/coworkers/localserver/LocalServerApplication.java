@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 @Import(SqliteConfiguration.class)
 public class LocalServerApplication {
 
-    static void main(String[] args) {
-        SpringApplication.run(LocalServerApplication.class, args);
-    }
+  static void main(String[] args) {
+    SpringApplication.run(LocalServerApplication.class, args);
+  }
 }
