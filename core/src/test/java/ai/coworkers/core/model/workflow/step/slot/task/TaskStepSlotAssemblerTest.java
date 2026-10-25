@@ -58,7 +58,8 @@ class TaskStepSlotAssemblerTest {
     @Test
     @DisplayName("다음 템플릿을 대응하는 슬롯 식별자로 바꿔 작업 슬롯을 만듦")
     void mapsNextToSlotId() {
-      TestTaskTemplate template = new TestTaskTemplate(new StepTemplateId(UUID.randomUUID()), NEXT_TEMPLATE);
+      TestTaskTemplate template =
+          new TestTaskTemplate(new StepTemplateId(UUID.randomUUID()), NEXT_TEMPLATE);
 
       assertThat(assembler.assemble(template, ID, SLOT_ID_OF))
           .isEqualTo(new TaskStepSlot(ID, template, NEXT_SLOT));

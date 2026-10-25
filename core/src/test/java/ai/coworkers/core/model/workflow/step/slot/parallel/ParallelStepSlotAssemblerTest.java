@@ -54,7 +54,8 @@ class ParallelStepSlotAssemblerTest {
               FIRST_TEMPLATE, FIRST_SLOT, SECOND_TEMPLATE, SECOND_SLOT, JOIN_TEMPLATE, JOIN_SLOT);
 
       assertThat(assembler.assemble(TEMPLATE, ID, slotIds::get))
-          .isEqualTo(new ParallelStepSlot(ID, TEMPLATE, List.of(SECOND_SLOT, FIRST_SLOT), JOIN_SLOT));
+          .isEqualTo(
+              new ParallelStepSlot(ID, TEMPLATE, List.of(SECOND_SLOT, FIRST_SLOT), JOIN_SLOT));
     }
   }
 }

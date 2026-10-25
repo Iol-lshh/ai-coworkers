@@ -16,7 +16,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("BranchStepSlotAssembler")
 class BranchStepSlotAssemblerTest {
 
-  private static final StepTemplateId WHEN_SATISFIED_TEMPLATE = new StepTemplateId(UUID.randomUUID());
+  private static final StepTemplateId WHEN_SATISFIED_TEMPLATE =
+      new StepTemplateId(UUID.randomUUID());
   private static final StepTemplateId OTHERWISE_TEMPLATE = new StepTemplateId(UUID.randomUUID());
   private static final StepSlotId ID = StepSlotId.generate();
   private static final StepSlotId WHEN_SATISFIED_SLOT = StepSlotId.generate();
