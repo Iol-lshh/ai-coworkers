@@ -1,11 +1,11 @@
 package ai.coworkers.repository.sqlite.step;
 
 import ai.coworkers.core.common.Page;
-import ai.coworkers.core.model.workflow.step.template.StepTemplate;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateCodec;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateCommand;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateRepository;
+import ai.coworkers.core.model.template.step.StepTemplate;
+import ai.coworkers.core.model.template.step.StepTemplateCodec;
+import ai.coworkers.core.model.template.step.StepTemplateCommand;
+import ai.coworkers.core.model.template.step.StepTemplateId;
+import ai.coworkers.core.model.template.step.StepTemplateRepository;
 import ai.coworkers.serd.json.step.StepTemplateJson;
 import java.util.List;
 import java.util.Optional;

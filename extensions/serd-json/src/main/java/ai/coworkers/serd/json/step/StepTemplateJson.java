@@ -1,13 +1,11 @@
 package ai.coworkers.serd.json.step;
 
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData.BranchData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData.LoopData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData.ParallelData;
-import java.util.ArrayList;
-import java.util.List;
+import ai.coworkers.core.model.template.step.StepTemplateData;
+import ai.coworkers.core.model.template.step.StepTemplateData.BranchData;
+import ai.coworkers.core.model.template.step.StepTemplateData.LoopData;
+import ai.coworkers.core.model.template.step.StepTemplateData.ParallelData;
+import ai.coworkers.serd.json.JsonFields;
 import java.util.UUID;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ArrayNode;
@@ -29,6 +27,7 @@ public final class StepTemplateJson {
 
   private final JsonMapper mapper = JsonMapper.builder().build();
   private final StepConditionJson conditionJson = new StepConditionJson();
+  private final JsonFields fields = new JsonFields(mapper, "template");
 
   /**
    * 저장 형태를 JSON 문자열로 바꿈.
@@ -70,95 +69,27 @@ public final class StepTemplateJson {
    * @return 저장 형태
    */
   public StepTemplateData read(String json) {
-    JsonNode root;
-    try {
-      root = mapper.readTree(json);
-    } catch (JacksonException e) {
-      throw new IllegalArgumentException("invalid template json", e);
-    }
-    if (!root.isObject()) {
-      throw invalid("root must be an object");
-    }
-    UUID id = uuidOf(root, ID);
-    Long version = versionOf(root);
-    return switch (kindOf(root)) {
+    JsonNode root = fields.object(fields.parse(json), "root");
+    UUID id = fields.uuid(root, ID);
+    Long version = fields.integer(root, VERSION);
+    return switch (fields.constant(root, KIND, Kind.class)) {
       case BRANCH ->
           new BranchData(
               id,
               version,
-              conditionJson.fromNode(require(root, CONDITION)),
-              uuidOf(root, WHEN_SATISFIED),
-              uuidOf(root, OTHERWISE));
+              conditionJson.fromNode(fields.require(root, CONDITION)),
+              fields.uuid(root, WHEN_SATISFIED),
+              fields.uuid(root, OTHERWISE));
       case LOOP ->
           new LoopData(
               id,
               version,
-              conditionJson.fromNode(require(root, CONDITION)),
-              uuidOf(root, BODY),
-              uuidOf(root, EXIT));
-      case PARALLEL -> new ParallelData(id, version, branchesOf(root), uuidOf(root, JOIN));
+              conditionJson.fromNode(fields.require(root, CONDITION)),
+              fields.uuid(root, BODY),
+              fields.uuid(root, EXIT));
+      case PARALLEL ->
+          new ParallelData(id, version, fields.uuids(root, BRANCHES), fields.uuid(root, JOIN));
     };
-  }
-
-  private Kind kindOf(JsonNode node) {
-    String kind = stringOf(require(node, KIND), KIND);
-    try {
-      return Kind.valueOf(kind);
-    } catch (IllegalArgumentException e) {
-      throw invalid("unknown kind: " + kind);
-    }
-  }
-
-  private static Long versionOf(JsonNode node) {
-    JsonNode version = require(node, VERSION);
-    if (!version.isIntegralNumber() || !version.canConvertToLong()) {
-      throw invalid(VERSION + " must be an integer");
-    }
-    return version.longValue();
-  }
-
-  private static List<UUID> branchesOf(JsonNode node) {
-    JsonNode branches = require(node, BRANCHES);
-    if (!branches.isArray()) {
-      throw invalid(BRANCHES + " must be an array");
-    }
-    List<UUID> result = new ArrayList<>();
-    for (JsonNode branch : branches.values()) {
-      result.add(toUuid(branch, BRANCHES));
-    }
-    return result;
-  }
-
-  private static UUID uuidOf(JsonNode node, String field) {
-    return toUuid(require(node, field), field);
-  }
-
-  private static UUID toUuid(JsonNode value, String field) {
-    String text = stringOf(value, field);
-    try {
-      return UUID.fromString(text);
-    } catch (IllegalArgumentException e) {
-      throw invalid(field + " must be a uuid");
-    }
-  }
-
-  private static JsonNode require(JsonNode node, String field) {
-    JsonNode value = node.get(field);
-    if (value == null) {
-      throw invalid("missing field: " + field);
-    }
-    return value;
-  }
-
-  private static String stringOf(JsonNode node, String field) {
-    if (!node.isString()) {
-      throw invalid(field + " must be a string");
-    }
-    return node.stringValue();
-  }
-
-  private static IllegalArgumentException invalid(String reason) {
-    return new IllegalArgumentException("invalid template json: " + reason);
   }
 
   /** JSON에 기록하는 템플릿 종류 */

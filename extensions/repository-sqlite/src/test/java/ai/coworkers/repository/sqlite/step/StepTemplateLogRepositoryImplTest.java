@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import ai.coworkers.core.common.UuidV7;
-import ai.coworkers.core.model.workflow.step.condition.StepConditionCodec;
-import ai.coworkers.core.model.workflow.step.template.ParallelStepTemplate;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateCodec;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateId;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateLog;
+import ai.coworkers.core.model.template.step.ParallelStepTemplate;
+import ai.coworkers.core.model.template.step.StepTemplateCodec;
+import ai.coworkers.core.model.template.step.StepTemplateId;
+import ai.coworkers.core.model.template.step.condition.StepConditionCodec;
+import ai.coworkers.core.model.template.step.log.StepTemplateLog;
 import ai.coworkers.repository.sqlite.InMemorySqlite;
 import ai.coworkers.serd.json.step.StepTemplateJson;
 import java.time.LocalDateTime;
@@ -72,6 +72,29 @@ class StepTemplateLogRepositoryImplTest {
           .extracting(
               row -> row.get("template_id"), row -> ((Number) row.get("version")).longValue())
           .containsExactly(tuple(ID.value().toString(), 1L), tuple(ID.value().toString(), 2L));
+    }
+  }
+
+  @Nested
+  @DisplayName("findSnapshot")
+  class FindSnapshot {
+
+    @Test
+    @DisplayName("식별자와 버전에 해당하는 스냅샷을 복원해 반환함")
+    void returnsSnapshotOfVersion() {
+      StepTemplateLog first = log(1L);
+      repository.append(first);
+      repository.append(log(2L));
+
+      assertThat(repository.findSnapshot(ID, 1L)).contains(first.snapshot());
+    }
+
+    @Test
+    @DisplayName("해당 버전의 로그가 없으면 빈 값을 반환함")
+    void returnsEmptyForUnknownVersion() {
+      repository.append(log(1L));
+
+      assertThat(repository.findSnapshot(ID, 2L)).isEmpty();
     }
   }
 }

@@ -1,6 +1,6 @@
 package ai.coworkers.localserver.config;
 
-import ai.coworkers.core.model.workflow.step.condition.StepConditionCodec;
+import ai.coworkers.core.model.template.step.condition.StepConditionCodec;
 import ai.coworkers.serd.json.step.StepConditionJson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

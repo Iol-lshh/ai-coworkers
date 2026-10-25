@@ -3,12 +3,12 @@ package ai.coworkers.serd.json;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData.LeafData;
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData.NotData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData.BranchData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData.LoopData;
-import ai.coworkers.core.model.workflow.step.template.StepTemplateData.ParallelData;
+import ai.coworkers.core.model.template.step.StepTemplateData;
+import ai.coworkers.core.model.template.step.StepTemplateData.BranchData;
+import ai.coworkers.core.model.template.step.StepTemplateData.LoopData;
+import ai.coworkers.core.model.template.step.StepTemplateData.ParallelData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData.LeafData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData.NotData;
 import ai.coworkers.serd.json.step.StepTemplateJson;
 import java.util.List;
 import java.util.Map;

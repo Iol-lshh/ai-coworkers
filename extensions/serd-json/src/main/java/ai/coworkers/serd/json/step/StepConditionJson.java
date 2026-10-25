@@ -1,15 +1,15 @@
 package ai.coworkers.serd.json.step;
 
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData;
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData.AllOfData;
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData.AnyOfData;
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData.LeafData;
-import ai.coworkers.core.model.workflow.step.condition.StepConditionData.NotData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData.AllOfData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData.AnyOfData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData.LeafData;
+import ai.coworkers.core.model.template.step.condition.StepConditionData.NotData;
+import ai.coworkers.serd.json.JsonFields;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ArrayNode;
@@ -25,6 +25,7 @@ public final class StepConditionJson {
   private static final String CONFIG = "config";
 
   private final JsonMapper mapper = JsonMapper.builder().build();
+  private final JsonFields fields = new JsonFields(mapper, "condition");
 
   /**
    * 저장 형태를 JSON 문자열로 바꿈.
@@ -43,13 +44,7 @@ public final class StepConditionJson {
    * @return 저장 형태
    */
   public StepConditionData read(String json) {
-    JsonNode root;
-    try {
-      root = mapper.readTree(json);
-    } catch (JacksonException e) {
-      throw new IllegalArgumentException("invalid condition json", e);
-    }
-    return fromNode(root);
+    return fromNode(fields.parse(json));
   }
 
   /**
@@ -95,67 +90,30 @@ public final class StepConditionJson {
    * @return 저장 형태
    */
   public StepConditionData fromNode(JsonNode node) {
-    if (!node.isObject()) {
-      throw invalid("node must be an object");
-    }
-    return switch (kindOf(node)) {
+    fields.object(node, "node");
+    return switch (fields.constant(node, KIND, Kind.class)) {
       case ALL_OF -> new AllOfData(childrenOf(node));
       case ANY_OF -> new AnyOfData(childrenOf(node));
-      case NOT -> new NotData(fromNode(require(node, CHILD)));
-      case LEAF -> new LeafData(stringOf(require(node, CODE), CODE), configOf(node));
+      case NOT -> new NotData(fromNode(fields.require(node, CHILD)));
+      case LEAF -> new LeafData(fields.string(node, CODE), configOf(node));
     };
   }
 
-  private Kind kindOf(JsonNode node) {
-    String kind = stringOf(require(node, KIND), KIND);
-    try {
-      return Kind.valueOf(kind);
-    } catch (IllegalArgumentException e) {
-      throw invalid("unknown kind: " + kind);
-    }
-  }
-
   private List<StepConditionData> childrenOf(JsonNode node) {
-    JsonNode children = require(node, CHILDREN);
-    if (!children.isArray()) {
-      throw invalid(CHILDREN + " must be an array");
-    }
     List<StepConditionData> result = new ArrayList<>();
-    for (JsonNode child : children.values()) {
+    for (JsonNode child : fields.array(node, CHILDREN)) {
       result.add(fromNode(child));
     }
     return result;
   }
 
   private Map<String, String> configOf(JsonNode node) {
-    JsonNode config = require(node, CONFIG);
-    if (!config.isObject()) {
-      throw invalid(CONFIG + " must be an object");
-    }
+    JsonNode config = fields.object(fields.require(node, CONFIG), CONFIG);
     Map<String, String> result = new HashMap<>();
     for (Map.Entry<String, JsonNode> entry : config.properties()) {
-      result.put(entry.getKey(), stringOf(entry.getValue(), CONFIG + "." + entry.getKey()));
+      result.put(entry.getKey(), fields.stringOf(entry.getValue(), CONFIG + "." + entry.getKey()));
     }
     return result;
-  }
-
-  private static JsonNode require(JsonNode node, String field) {
-    JsonNode value = node.get(field);
-    if (value == null) {
-      throw invalid("missing field: " + field);
-    }
-    return value;
-  }
-
-  private static String stringOf(JsonNode node, String field) {
-    if (!node.isString()) {
-      throw invalid(field + " must be a string");
-    }
-    return node.stringValue();
-  }
-
-  private static IllegalArgumentException invalid(String reason) {
-    return new IllegalArgumentException("invalid condition json: " + reason);
   }
 
   /** JSON에 기록하는 노드 종류 */
