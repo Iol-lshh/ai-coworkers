@@ -5,16 +5,19 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.errorprone) apply false
+    alias(libs.plugins.spotless) apply false
 }
 
 val errorproneCore = libs.errorprone.core
 val nullaway = libs.nullaway
+val googleJavaFormatVersion = libs.versions.google.java.format.get()
 
 // 모든 모듈 공통: Java 25 toolchain, JUnit, JaCoCo(분기 커버리지 XML), 아키텍처 규칙(core testFixtures), NullAway(main 소스), Lombok
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "jacoco")
     apply(plugin = "net.ltgt.errorprone")
+    apply(plugin = "com.diffplug.spotless")
 
     group = "ai.coworkers"
     version = "0.1.0-SNAPSHOT"
@@ -22,6 +25,16 @@ subprojects {
     configure<JavaPluginExtension> {
         toolchain {
             languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
+
+    // 코드 스타일: google-java-format 로 전체 Java 소스 통일
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        java {
+            googleJavaFormat(googleJavaFormatVersion)
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
         }
     }
 

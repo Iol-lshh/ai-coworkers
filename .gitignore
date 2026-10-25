@@ -28,7 +28,10 @@ application-local.yaml
 application-local.properties
 
 ### IntelliJ IDEA ###
-.idea/
+# .idea 는 기본적으로 무시하되, 팀 공유가 유의미한 설정만 예외로 추적한다.
+.idea/*
+!.idea/externalDependencies.xml
+!.idea/googleJavaFormat.xml
 *.iws
 *.iml
 *.ipr

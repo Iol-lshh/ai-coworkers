@@ -1,0 +1,31 @@
+# google-java-format(Spotless)과 IDE 포매팅을 맞추기 위한 공유 설정.
+# IntelliJ·VS Code 등이 자동 인식
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.java]
+indent_style = space
+indent_size = 2
+continuation_indent_size = 4
+max_line_length = 100
+# import 정렬: 와일드카드 금지, google-java-format 순서(정적 import 뒤쪽 블록)
+ij_java_use_single_class_imports = true
+ij_java_class_count_to_use_import_on_demand = 999
+ij_java_names_count_to_use_import_on_demand = 999
+ij_java_imports_layout = *, |, com.**, |, java.**, javax.**, |, $*
+
+[*.{kt,kts}]
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml,json,toml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
